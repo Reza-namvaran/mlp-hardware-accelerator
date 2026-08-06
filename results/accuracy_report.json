@@ -1,0 +1,6 @@
+{
+  "float_acc": 0.9482,
+  "framework": "pytorch",
+  "quant_acc": 0.948,
+  "accuracy_drop": 0.000200000000000089
+}
