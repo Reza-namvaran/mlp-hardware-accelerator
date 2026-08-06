@@ -1,0 +1,8 @@
+{
+  "format": "Q8.8",
+  "frac_bits": 8,
+  "acc_width": 32,
+  "float_acc": 0.9482,
+  "quant_acc": 0.948,
+  "accuracy_drop": 0.000200000000000089
+}
