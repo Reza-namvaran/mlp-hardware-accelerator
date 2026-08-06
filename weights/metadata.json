@@ -1,0 +1,16 @@
+{
+  "input_size": 784,
+  "hidden_size": 16,
+  "output_size": 10,
+  "data_width": 16,
+  "frac_bits": 8,
+  "format": "Q8.8",
+  "weight_layout": "row-major per neuron",
+  "files": {
+    "w1": "weights/w1.mem",
+    "b1": "weights/b1.mem",
+    "w2": "weights/w2.mem",
+    "b2": "weights/b2.mem",
+    "pkg_weights": "vhdl/rtl/pkg_weights.vhd"
+  }
+}
