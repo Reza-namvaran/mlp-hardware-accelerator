@@ -41,3 +41,12 @@ FSM scheduling overhead.
 - 3,790 images/s at 100 MHz (serial).
 - Doubling parallelism in layer 1 (`N_PARALLEL=2`) would roughly halve
   the layer-1 cost; this is left as a documented extension (bonus).
+
+## Real FPGA synthesis (Vivado, xc7a100tcsg324-1)
+
+The cycle counts above are simulation timing, independent of clock
+frequency. Real achievable clock frequency, resource usage, and power come
+from actual synthesis, not simulation -- see `docs/final_report.md` §6 and
+`results/argmax_optimization.md` for the full numbers and the argmax
+critical-path fix that raised the achievable frequency from ~39 MHz to
+~66 MHz.
