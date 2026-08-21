@@ -1,14 +1,3 @@
-"""Approximate-arithmetic bonus: sweep LSB-mask width, measure accuracy impact.
-
-Mirrors vhdl/rtl/mac_approx.vhd's technique exactly: before every multiply, the
-lower MASK_BITS bits of *both* operands (activation and weight) are cleared
-with a bitmask; bias, accumulation, shift, and saturation are all untouched
-(same as the VHDL). MASK_BITS=0 reproduces the exact baseline (93.8%).
-
-Self-contained (no torch import) for the same reason as bitwidth_sweep.py:
-weights/float_weights.npz already holds plain NumPy arrays.
-"""
-
 from __future__ import annotations
 
 import json

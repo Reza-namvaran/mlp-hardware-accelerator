@@ -1,5 +1,3 @@
-"""Scholarship-oriented ablations: Q-format and hidden-size sweeps."""
-
 from __future__ import annotations
 
 import json

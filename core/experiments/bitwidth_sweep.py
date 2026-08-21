@@ -1,20 +1,3 @@
-"""Dynamic-precision bonus: sweep weight storage width, measure accuracy/ROM-size trade-off.
-
-Activations, bias, and the 32-bit accumulator stay fixed at the baseline Q8.8
-policy (matches vhdl/rtl/pkg_fixed.vhd + mac.vhd). Only the *weight* values are
-re-quantized to fewer total bits at the same FRAC_BITS=8 scale, mirroring the
-narrower vhdl/rtl/mac8.vhd multiplier path. This models "8-bit weights, 32-bit
-accumulator" (course bonus §3) as an actual experiment instead of just
-re-describing the existing Q8.8 baseline.
-
-Self-contained (no `model`/`quantization`/`evaluate` imports): those pull in
-PyTorch just to instantiate a model we don't need here, since
-weights/float_weights.npz already holds plain NumPy w1/b1/w2/b2 arrays. The
-quantize/infer logic below is the same policy as quantization.py's
-float_to_fixed + evaluate.py's eval_quant_fast, just reimplemented without the
-torch-import chain.
-"""
-
 from __future__ import annotations
 
 import json
