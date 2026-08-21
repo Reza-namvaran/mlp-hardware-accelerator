@@ -1,3 +1,5 @@
+"""Minimal MNIST IDX loader (no torchvision required)."""
+
 from __future__ import annotations
 
 from pathlib import Path
@@ -10,7 +12,7 @@ from config import DATA_DIR
 def _read_idx_images(path: Path) -> np.ndarray:
     raw = path.read_bytes()
     magic = int.from_bytes(raw[0:4], "big")
-    if magic != 2051:
+    if magic != 2051:   
         raise ValueError(f"Bad image magic in {path}: {magic}")
     n = int.from_bytes(raw[4:8], "big")
     rows = int.from_bytes(raw[8:12], "big")

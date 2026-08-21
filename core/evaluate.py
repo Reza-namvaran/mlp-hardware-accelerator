@@ -1,3 +1,5 @@
+"""Evaluate float (PyTorch) and quantized MLP accuracy."""
+
 from __future__ import annotations
 
 import argparse

@@ -1,3 +1,5 @@
+"""Train float32 MLP on MNIST with PyTorch."""
+
 from __future__ import annotations
 
 import argparse
