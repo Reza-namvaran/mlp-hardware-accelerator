@@ -41,7 +41,7 @@ run_tb() {
 }
 
 usage() {
-  echo "Usage: $0 {mac|relu|unit|top|all} [--wave]"
+  echo "Usage: $0 {mac|relu|mac8|mac_pipelined|mac_approx|unit|top|parallel|compare|all} [--wave]"
   exit 1
 }
 
@@ -61,20 +61,51 @@ case "$TARGET" in
     $GHDL -a --std=08 "$RTL/relu.vhd"
     run_tb tb_relu tb_relu.vhd
     ;;
+  mac8)
+    $GHDL -a --std=08 "$RTL/pkg_fixed.vhd"
+    $GHDL -a --std=08 "$RTL/mac8.vhd"
+    run_tb tb_mac8 tb_mac8.vhd
+    ;;
+  mac_pipelined)
+    $GHDL -a --std=08 "$RTL/pkg_fixed.vhd"
+    $GHDL -a --std=08 "$RTL/mac_pipelined.vhd"
+    run_tb tb_mac_pipelined tb_mac_pipelined.vhd
+    ;;
+  mac_approx)
+    $GHDL -a --std=08 "$RTL/pkg_fixed.vhd"
+    $GHDL -a --std=08 "$RTL/mac_approx.vhd"
+    run_tb tb_mac_approx tb_mac_approx.vhd
+    ;;
   unit)
     $GHDL -a --std=08 "$RTL/pkg_fixed.vhd"
     $GHDL -a --std=08 "$RTL/mac.vhd"
     $GHDL -a --std=08 "$RTL/relu.vhd"
+    $GHDL -a --std=08 "$RTL/mac8.vhd"
+    $GHDL -a --std=08 "$RTL/mac_pipelined.vhd"
+    $GHDL -a --std=08 "$RTL/mac_approx.vhd"
     run_tb tb_mac tb_mac.vhd
     run_tb tb_relu tb_relu.vhd
+    run_tb tb_mac8 tb_mac8.vhd
+    run_tb tb_mac_pipelined tb_mac_pipelined.vhd
+    run_tb tb_mac_approx tb_mac_approx.vhd
     ;;
   top)
     analyze_common
     run_tb tb_mlp_top tb_mlp_top.vhd
     ;;
+  parallel)
+    analyze_common
+    run_tb tb_mlp_top_parallel tb_mlp_top_parallel.vhd
+    ;;
+  compare)
+    analyze_common
+    run_tb tb_serial_vs_parallel tb_serial_vs_parallel.vhd
+    ;;
   all)
     "$SCRIPT" unit
     "$SCRIPT" top
+    "$SCRIPT" parallel
+    "$SCRIPT" compare
     ;;
   *)
     usage
