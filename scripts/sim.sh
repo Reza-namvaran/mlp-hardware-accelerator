@@ -76,6 +76,11 @@ case "$TARGET" in
     $GHDL -a --std=08 "$RTL/mac_approx.vhd"
     run_tb tb_mac_approx tb_mac_approx.vhd
     ;;
+  argmax)
+    $GHDL -a --std=08 "$RTL/pkg_fixed.vhd"
+    $GHDL -a --std=08 "$RTL/argmax.vhd"
+    run_tb tb_argmax tb_argmax.vhd
+    ;;
   unit)
     $GHDL -a --std=08 "$RTL/pkg_fixed.vhd"
     $GHDL -a --std=08 "$RTL/mac.vhd"
@@ -83,11 +88,13 @@ case "$TARGET" in
     $GHDL -a --std=08 "$RTL/mac8.vhd"
     $GHDL -a --std=08 "$RTL/mac_pipelined.vhd"
     $GHDL -a --std=08 "$RTL/mac_approx.vhd"
+    $GHDL -a --std=08 "$RTL/argmax.vhd"
     run_tb tb_mac tb_mac.vhd
     run_tb tb_relu tb_relu.vhd
     run_tb tb_mac8 tb_mac8.vhd
     run_tb tb_mac_pipelined tb_mac_pipelined.vhd
     run_tb tb_mac_approx tb_mac_approx.vhd
+    run_tb tb_argmax tb_argmax.vhd
     ;;
   top)
     analyze_common

@@ -41,7 +41,15 @@ end entity dense_layer;
 architecture rtl of dense_layer is
   constant N_GROUPS : integer := (N_NEURONS + N_PARALLEL - 1) / N_PARALLEL;
 
-  signal group_idx  : integer range 0 to N_GROUPS := 0;
+  -- Bounded by N_NEURONS (always >= N_GROUPS for any N_PARALLEL >= 1), not by
+  -- N_GROUPS itself: N_GROUPS can degenerate to 1 (e.g. N_NEURONS=N_PARALLEL=16),
+  -- giving group_idx a size-1 declared range. Some synthesis tools (Vivado
+  -- 2019.1 included) check "group_idx <= group_idx + 1" against group_idx's own
+  -- declared range without proving the guarding if/else makes the increment
+  -- unreachable at that bound, and reject it as a false "out of range" -- even
+  -- though GHDL simulation never exercises that unreachable path. A wider,
+  -- fixed range sidesteps the check without changing behavior.
+  signal group_idx  : integer range 0 to N_NEURONS := 0;
   signal neur_start : std_logic := '0';
   signal neur_idx   : integer range 0 to N_INPUTS := 0;
   signal neur_done  : std_logic;
