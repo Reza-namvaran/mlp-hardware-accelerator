@@ -8,7 +8,11 @@ use work.pkg_fixed.all;
 -- Clears lower MASK_BITS bits to reduce logic switching activity and power consumption.
 entity mac_approx is
   generic (
-    MASK_BITS : integer := 4
+    -- MASK_BITS=4 costs ~25 accuracy points (93.8% -> 68.7%, measured in
+    -- python/experiments/mask_bits_sweep.py) -- masking both multiply
+    -- operands on every one of 784+16 MACs/inference compounds fast.
+    -- MASK_BITS=2 is the usable operating point (93.8% -> 92.75%).
+    MASK_BITS : integer := 2
   );
   port (
     clk       : in  std_logic;
