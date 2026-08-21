@@ -1,3 +1,5 @@
+"""Configurable MLP: Input → Hidden (ReLU) → Output (logits) — PyTorch."""
+
 from __future__ import annotations
 
 import numpy as np
