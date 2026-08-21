@@ -1,0 +1,51 @@
+[
+  {
+    "weight_width": 16,
+    "accuracy": 0.948,
+    "rom_bits": 203264,
+    "rom_bytes": 25408,
+    "rom_size_vs_baseline": 1.0
+  },
+  {
+    "weight_width": 12,
+    "accuracy": 0.948,
+    "rom_bits": 152448,
+    "rom_bytes": 19056,
+    "rom_size_vs_baseline": 0.75
+  },
+  {
+    "weight_width": 10,
+    "accuracy": 0.948,
+    "rom_bits": 127040,
+    "rom_bytes": 15880,
+    "rom_size_vs_baseline": 0.625
+  },
+  {
+    "weight_width": 9,
+    "accuracy": 0.948,
+    "rom_bits": 114336,
+    "rom_bytes": 14292,
+    "rom_size_vs_baseline": 0.5625
+  },
+  {
+    "weight_width": 8,
+    "accuracy": 0.9338,
+    "rom_bits": 101632,
+    "rom_bytes": 12704,
+    "rom_size_vs_baseline": 0.5
+  },
+  {
+    "weight_width": 7,
+    "accuracy": 0.818,
+    "rom_bits": 88928,
+    "rom_bytes": 11116,
+    "rom_size_vs_baseline": 0.4375
+  },
+  {
+    "weight_width": 6,
+    "accuracy": 0.6084,
+    "rom_bits": 76224,
+    "rom_bytes": 9528,
+    "rom_size_vs_baseline": 0.375
+  }
+]
