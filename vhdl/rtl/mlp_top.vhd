@@ -78,6 +78,7 @@ begin
 
   u_rom : entity work.rom_weights
     port map (
+      clk     => clk,
       w1_addr => w1_addr,
       w1_data => w1_data,
       b1_addr => b1_addr,

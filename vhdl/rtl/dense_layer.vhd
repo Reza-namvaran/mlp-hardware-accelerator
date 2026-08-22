@@ -50,6 +50,18 @@ architecture rtl of dense_layer is
   -- though GHDL simulation never exercises that unreachable path. A wider,
   -- fixed range sidesteps the check without changing behavior.
   signal group_idx  : integer range 0 to N_NEURONS := 0;
+  -- Registered once per group transition instead of recomputed every cycle.
+  -- w_addr's old formula was "(group_idx*N_PARALLEL+lane)*N_INPUTS+neur_idx":
+  -- a live combinational multiply by N_INPUTS (784, not a power of two) on
+  -- EVERY cycle, even though group_idx only changes once per group (or
+  -- never, in the fully-parallel config where there's a single group).
+  -- Synthesis (Vivado, xc7a100tcsg324-1) confirmed this became the critical
+  -- path once the argmax bottleneck was fixed (results/argmax_optimization.md).
+  -- group_base holds group_idx*N_PARALLEL*N_INPUTS, updated only when
+  -- group_idx changes; the per-cycle address then costs one cheap add
+  -- (group_base + lane*N_INPUTS, the latter a compile-time constant per
+  -- generate-loop lane) instead of a multiply.
+  signal group_base : rom_addr_t := 0;
   signal neur_start : std_logic := '0';
   signal neur_idx   : integer range 0 to N_INPUTS := 0;
   signal neur_done  : std_logic;
@@ -91,7 +103,7 @@ begin
         y      => lane_y(lane)
       );
 
-    w_addr(lane) <= (group_idx * N_PARALLEL + lane) * N_INPUTS + neur_idx
+    w_addr(lane) <= group_base + lane * N_INPUTS + neur_idx
                        when (group_idx * N_PARALLEL + lane) < N_NEURONS else 0;
     b_addr(lane) <= (group_idx * N_PARALLEL + lane)
                        when (group_idx * N_PARALLEL + lane) < N_NEURONS else 0;
@@ -115,6 +127,7 @@ begin
       if rst = '1' then
         state <= IDLE;
         group_idx <= 0;
+        group_base <= 0;
         neur_start <= '0';
         busy_r <= '0';
         done_r <= '0';
@@ -129,6 +142,7 @@ begin
             busy_r <= '0';
             if start = '1' then
               group_idx <= 0;
+              group_base <= 0;
               busy_r <= '1';
               state <= FIRE;
             end if;
@@ -148,6 +162,7 @@ begin
               state <= FINISH;
             else
               group_idx <= group_idx + 1;
+              group_base <= (group_idx + 1) * N_PARALLEL * N_INPUTS;
               state <= FIRE;
             end if;
 
